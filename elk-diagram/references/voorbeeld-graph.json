@@ -1,0 +1,37 @@
+{
+  "layoutOptions": {
+    "elk.direction": "RIGHT",
+    "elk.edgeRouting": "ORTHOGONAL"
+  },
+  "styles": {
+    "group":     { "fill": "#F7F7F5", "stroke": "#C9C9C4", "dash": "4,4", "bold": true, "textColor": "#555555" },
+    "service":   { "fill": "#E8F0FE", "stroke": "#3B6FD8", "bold": true },
+    "opslag":    { "fill": "#FFF4E0", "stroke": "#C98A1A", "bold": true },
+    "extern":    { "fill": "#FFFFFF", "stroke": "#888888", "dash": "5,5" },
+    "async":     { "stroke": "#888888", "dash": "6,4" }
+  },
+  "groups": [
+    { "id": "frontend", "label": "Frontend" },
+    { "id": "backend", "label": "Backend" },
+    { "id": "data", "label": "Data" }
+  ],
+  "nodes": [
+    { "id": "gebruiker", "label": "Gebruiker", "style": "extern" },
+    { "id": "web", "label": "Webapp", "group": "frontend", "style": "service" },
+    { "id": "mobiel", "label": "Mobiele app", "group": "frontend", "style": "service" },
+    { "id": "api", "label": "API", "group": "backend", "style": "service" },
+    { "id": "worker", "label": "Worker\nachtergrondtaken", "group": "backend", "style": "service" },
+    { "id": "db", "label": "Databank", "group": "data", "style": "opslag" },
+    { "id": "queue", "label": "Wachtrij", "group": "data", "style": "opslag" }
+  ],
+  "edges": [
+    { "source": "gebruiker", "target": "web", "label": "HTTPS" },
+    { "source": "gebruiker", "target": "mobiel" },
+    { "source": "web", "target": "api", "label": "REST" },
+    { "source": "mobiel", "target": "api", "label": "REST" },
+    { "source": "api", "target": "db", "label": "SQL" },
+    { "source": "api", "target": "queue", "label": "taak", "style": "async" },
+    { "source": "queue", "target": "worker", "style": "async" },
+    { "source": "worker", "target": "db" }
+  ]
+}
